@@ -1,0 +1,18 @@
+- name: uninstall pre-installed mariadb
+  apt:
+    name: mariadb-libs
+    state: absent
+  register: result_maria
+
+- name: remove pre-installed mariadb`s file
+  file:
+    path: /var/lib/mysql
+    state: absent
+  when: result_maria.changed == 'true'
+
+- name: install MySQL{{ __version }}
+  become: true
+  apt:
+    name: mysql-client-{{ __version }}
+    state: present
+

@@ -1,0 +1,11 @@
+---
+- hosts: local
+  become: no
+  roles:
+    - role: init
+    - role: ruby
+    - role: mysql
+    - { role: nginx, become: yes}
+  vars:
+    __working_user: vagrant
+    __app_dir: /var/apps

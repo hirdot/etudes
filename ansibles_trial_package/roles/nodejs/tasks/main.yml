@@ -1,0 +1,42 @@
+- name: check if nodejs already installed
+  stat:
+    path: /usr/local/bin/node
+  register: nodejs_bin
+
+- name: download and setup nodejs source
+  shell: |
+    curl -sL https://rpm.nodesource.com/setup_8.x | bash -
+  when: not nodejs_bin.stat.exists
+
+- name: install latest nodejs temporary
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items: 
+    - nodejs
+  when: not nodejs_bin.stat.exists
+
+- name: install n
+  npm:
+    name: n
+    state: present
+    global: yes
+  when: not nodejs_bin.stat.exists
+
+- name: install version specific nodejs using n
+  shell: |
+    n {{ __version }}
+  when: not nodejs_bin.stat.exists
+
+- name: set global npm path
+  template:
+    src: 201_nodejs.sh
+    dest: ~/.bash.d/201_nodejs.sh
+    mode: 0755
+  when: not nodejs_bin.stat.exists
+
+- name: install yarn
+  npm:
+    name: yarn
+    state: present
+    global: yes

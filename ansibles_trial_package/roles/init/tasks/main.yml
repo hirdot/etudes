@@ -1,0 +1,22 @@
+# .bash_profile
+- name: deploy .bash_profile
+  template:
+    src: .bash_profile
+    dest: ~/.bash_profile
+    mode: 0644
+
+# mkdir .bash.d
+- name: mkdir .bash.d
+  file:
+    path: ~/.bash.d
+    state: directory
+    mode: 0755
+
+# set locale
+- name: set LANG={{ __locale }} in /etc/locale.gen
+  become: yes
+  lineinfile:
+    dest: /etc/locale.gen
+    regexp: "^LANG="
+    line: "LANG={{ __locale }}"
+    backup: yes

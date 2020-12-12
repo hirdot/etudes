@@ -1,0 +1,43 @@
+# apt install git, etc...
+- name: install git and other dependencies
+  become: yes
+  apt:
+    name: [git, gcc, make, libssl-dev, libreadline-dev, zlib1g-dev]
+
+# git install rbenv, ruby-build
+- name: install rbenv
+  git:
+    repo: https://github.com/rbenv/rbenv.git
+    dest: ~/.rbenv
+
+- name: set global rbenv path
+  template:
+    src: 001_rbenv.sh
+    dest: ~/.bash.d/001_rbenv.sh
+    mode: 0755
+
+- name: install ruby-build
+  git:
+    repo: https://github.com/sstephenson/ruby-build.git
+    dest: ~/.rbenv/plugins/ruby-build
+
+# make app dir
+- name: make app directory (if rails new)
+  become: yes
+  file:
+    path: "{{ __app_dir }}"
+    state: directory
+    mode: 0755
+
+# relogin by source .bash_profile
+- name: shell relogin
+  shell: |
+    /bin/bash -lc  "source ~/.bash_profile"
+
+# rbenv install
+- name: install ruby {{ __version }}
+  shell: |
+    /bin/bash -lc "rbenv install {{ __version }}"
+    /bin/bash -lc "rbenv global {{ __version }}"
+    /bin/bash -lc "gem install bundler"
+    /bin/bash -lc "rbenv rehash"

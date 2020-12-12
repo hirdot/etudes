@@ -1,0 +1,9 @@
+---
+- hosts: local
+  become: no
+  roles:
+    - role: init
+    - role: nodejs
+  vars:
+    __working_user: vagrant
+    __app_dir: /var/apps
