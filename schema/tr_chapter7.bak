@@ -1,0 +1,22 @@
+(define (str2int str)
+    (ls-s2i (string->list str) 0))
+
+(define (ls-s2i ls sum)
+    (if (null? ls)
+        sum
+        (if (null? sum)
+            (ls-s2i (cdr ls) (* (- (char->integer (car ls)) 48) (10-njo (yososu ls))))
+            (ls-s2i (cdr ls) (+ sum (* (- (char->integer (car ls)) 48) (10-njo (yososu ls)))))
+            )
+        )
+    )
+
+(define (10-njo n)
+    (if (= n 1)
+        1
+        (* 10 (10-njo (- n 1)))))
+
+(define (yososu ls)
+    (if (null? ls)
+        0
+        (+ 1 (yososu (cdr ls)))))

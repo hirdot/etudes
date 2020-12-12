@@ -1,0 +1,3 @@
+(define hello 
+  (lambda (name)
+    (string-append "Hello " name "!")))
