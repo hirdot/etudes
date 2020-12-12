@@ -1,0 +1,183 @@
+[
+#<RubyWarrior::Space:0x007f28194c4b70
+@floor=#<RubyWarrior::Floor:0x007f281971eec0 
+@width=6, 
+@height=1, 
+@units=[#<RubyWarrior::Units::Warrior:0x007f28197171e8
+@score=0, 
+@golem_abilities=[], 
+@position=#<RubyWarrior::Position:0x007f2819716f90
+@floor=#<RubyWarrior::Floor:0x007f281971eec0 ...>, 
+@x=0, 
+@y=0, 
+@direction_index=1>, 
+@abilities={:look=>#<RubyWarrior::Abilities::Look:0x007f2819715e10 
+@unit=#<RubyWarrior::Units::Warrior:0x007f28197171e8 ...>>, :shoot!=>#<RubyWarrior::Abilities::Shoot:0x007f2819714588 
+@unit=#<RubyWarrior::Units::Warrior:0x007f28197171e8 ...>>, :pivot!=>#<RubyWarrior::Abilities::Pivot:0x007f281970b500 
+@unit=#<RubyWarrior::Units::Warrior:0x007f28197171e8 ...>>, :rescue!=>#<RubyWarrior::Abilities::Rescue:0x007f281970ada8 
+@unit=#<RubyWarrior::Units::Warrior:0x007f28197171e8 ...>>, :health=>#<RubyWarrior::Abilities::Health:0x007f281970a560 
+@unit=#<RubyWarrior::Units::Warrior:0x007f28197171e8 ...>>, :rest!=>#<RubyWarrior::Abilities::Rest:0x007f2819709d18 
+@unit=#<RubyWarrior::Units::Warrior:0x007f28197171e8 ...>>, :feel=>#<RubyWarrior::Abilities::Feel:0x007f2819708c38 
+@unit=#<RubyWarrior::Units::Warrior:0x007f28197171e8 ...>>, :attack!=>#<RubyWarrior::Abilities::Attack:0x007f28196e2380 
+@unit=#<RubyWarrior::Units::Warrior:0x007f28197171e8 ...>>, :walk!=>#<RubyWarrior::Abilities::Walk:0x007f28196e0e40 
+@unit=#<RubyWarrior::Units::Warrior:0x007f28197171e8 ...>>}, 
+@name="Nikita", 
+@current_turn=#<RubyWarrior::Turn:0x007f28194e7788 
+@action=nil, 
+@senses={
+:look=>#<RubyWarrior::Abilities::Look:0x007f2819715e10
+ @unit=#<RubyWarrior::Units::Warrior:0x007f28197171e8 ...>>, :health=>#<RubyWarrior::Abilities::Health:0x007f281970a560
+ @unit=#<RubyWarrior::Units::Warrior:0x007f28197171e8 ...>>, :feel=>#<RubyWarrior::Abilities::Feel:0x007f2819708c38
+ @unit=#<RubyWarrior::Units::Warrior:0x007f28197171e8 ...>>}>,
+@player=#<UserScope::Player:0x007f28194c6600
+        @dir=:forward,
+        @health=20,
+        @in_battle=false,
+        @arr=[...]
+        >,
+@health=20>,
+#<RubyWarrior::Units::Captive:0x007f28196cfbe0
+@bound=true, 
+@position=#<RubyWarrior::Position:0x007f28196cfa78 
+@floor=#<RubyWarrior::Floor:0x007f281971eec0 ...>, 
+@x=2, 
+@y=0, 
+@direction_index=3>>, #<RubyWarrior::Units::Wizard:0x007f28196ceba0 
+@abilities={:shoot!=>#<RubyWarrior::Abilities::Shoot:0x007f28196cd930 
+@unit=#<RubyWarrior::Units::Wizard:0x007f28196ceba0 ...>>, :look=>#<RubyWarrior::Abilities::Look:0x007f28196c75d0 
+@unit=#<RubyWarrior::Units::Wizard:0x007f28196ceba0 ...>>}, 
+@position=#<RubyWarrior::Position:0x007f28196c75a8 
+@floor=#<RubyWarrior::Floor:0x007f281971eec0 ...>, 
+@x=3, 
+@y=0, 
+@direction_index=3>>, #<RubyWarrior::Units::Wizard:0x007f28196c5b40 
+@abilities={:shoot!=>#<RubyWarrior::Abilities::Shoot:0x007f28196c44e8 
+@unit=#<RubyWarrior::Units::Wizard:0x007f28196c5b40 ...>>, :look=>#<RubyWarrior::Abilities::Look:0x007f28194ef370 
+@unit=#<RubyWarrior::Units::Wizard:0x007f28196c5b40 ...>>}, 
+@position=#<RubyWarrior::Position:0x007f28194ef348 
+@floor=#<RubyWarrior::Floor:0x007f281971eec0 ...>, 
+@x=4, 
+@y=0, 
+@direction_index=3>>], 
+@stairs_location=[5, 0]>, 
+@x=1, 
+@y=0>, #<RubyWarrior::Space:0x007f28194c49b8 
+@floor=#<RubyWarrior::Floor:0x007f281971eec0 
+@width=6, 
+@height=1, 
+@units=[#<RubyWarrior::Units::Warrior:0x007f28197171e8 
+@score=0, 
+@golem_abilities=[], 
+@position=#<RubyWarrior::Position:0x007f2819716f90 
+@floor=#<RubyWarrior::Floor:0x007f281971eec0 ...>, 
+@x=0, 
+@y=0, 
+@direction_index=1>, 
+@abilities={:look=>#<RubyWarrior::Abilities::Look:0x007f2819715e10 
+@unit=#<RubyWarrior::Units::Warrior:0x007f28197171e8 ...>>, :shoot!=>#<RubyWarrior::Abilities::Shoot:0x007f2819714588 
+@unit=#<RubyWarrior::Units::Warrior:0x007f28197171e8 ...>>, :pivot!=>#<RubyWarrior::Abilities::Pivot:0x007f281970b500 
+@unit=#<RubyWarrior::Units::Warrior:0x007f28197171e8 ...>>, :rescue!=>#<RubyWarrior::Abilities::Rescue:0x007f281970ada8 
+@unit=#<RubyWarrior::Units::Warrior:0x007f28197171e8 ...>>, :health=>#<RubyWarrior::Abilities::Health:0x007f281970a560 
+@unit=#<RubyWarrior::Units::Warrior:0x007f28197171e8 ...>>, :rest!=>#<RubyWarrior::Abilities::Rest:0x007f2819709d18 
+@unit=#<RubyWarrior::Units::Warrior:0x007f28197171e8 ...>>, :feel=>#<RubyWarrior::Abilities::Feel:0x007f2819708c38 
+@unit=#<RubyWarrior::Units::Warrior:0x007f28197171e8 ...>>, :attack!=>#<RubyWarrior::Abilities::Attack:0x007f28196e2380 
+@unit=#<RubyWarrior::Units::Warrior:0x007f28197171e8 ...>>, :walk!=>#<RubyWarrior::Abilities::Walk:0x007f28196e0e40 
+@unit=#<RubyWarrior::Units::Warrior:0x007f28197171e8 ...>>}, 
+@name="Nikita", 
+@current_turn=#<RubyWarrior::Turn:0x007f28194e7788 
+@action=nil, 
+@senses={:look=>#<RubyWarrior::Abilities::Look:0x007f2819715e10 
+@unit=#<RubyWarrior::Units::Warrior:0x007f28197171e8 ...>>, :health=>#<RubyWarrior::Abilities::Health:0x007f281970a560 
+@unit=#<RubyWarrior::Units::Warrior:0x007f28197171e8 ...>>, :feel=>#<RubyWarrior::Abilities::Feel:0x007f2819708c38 
+@unit=#<RubyWarrior::Units::Warrior:0x007f28197171e8 ...>>}>, 
+@player=#<UserScope::Player:0x007f28194c6600 
+@dir=:forward, 
+@health=20, 
+@in_battle=false, 
+@arr=[...]>, 
+@health=20>, #<RubyWarrior::Units::Captive:0x007f28196cfbe0 
+@bound=true, 
+@position=#<RubyWarrior::Position:0x007f28196cfa78 
+@floor=#<RubyWarrior::Floor:0x007f281971eec0 ...>, 
+@x=2, 
+@y=0, 
+@direction_index=3>>, #<RubyWarrior::Units::Wizard:0x007f28196ceba0 
+@abilities={:shoot!=>#<RubyWarrior::Abilities::Shoot:0x007f28196cd930 
+@unit=#<RubyWarrior::Units::Wizard:0x007f28196ceba0 ...>>, :look=>#<RubyWarrior::Abilities::Look:0x007f28196c75d0 
+@unit=#<RubyWarrior::Units::Wizard:0x007f28196ceba0 ...>>}, 
+@position=#<RubyWarrior::Position:0x007f28196c75a8 
+@floor=#<RubyWarrior::Floor:0x007f281971eec0 ...>, 
+@x=3, 
+@y=0, 
+@direction_index=3>>, #<RubyWarrior::Units::Wizard:0x007f28196c5b40 
+@abilities={:shoot!=>#<RubyWarrior::Abilities::Shoot:0x007f28196c44e8 
+@unit=#<RubyWarrior::Units::Wizard:0x007f28196c5b40 ...>>, :look=>#<RubyWarrior::Abilities::Look:0x007f28194ef370 
+@unit=#<RubyWarrior::Units::Wizard:0x007f28196c5b40 ...>>}, 
+@position=#<RubyWarrior::Position:0x007f28194ef348 
+@floor=#<RubyWarrior::Floor:0x007f281971eec0 ...>, 
+@x=4, 
+@y=0, 
+@direction_index=3>>], 
+@stairs_location=[5, 0]>, 
+@x=2, 
+@y=0>, #<RubyWarrior::Space:0x007f28194c4698 
+@floor=#<RubyWarrior::Floor:0x007f281971eec0 
+@width=6, 
+@height=1, 
+@units=[#<RubyWarrior::Units::Warrior:0x007f28197171e8 
+@score=0, 
+@golem_abilities=[], 
+@position=#<RubyWarrior::Position:0x007f2819716f90 
+@floor=#<RubyWarrior::Floor:0x007f281971eec0 ...>, 
+@x=0, 
+@y=0, 
+@direction_index=1>, 
+@abilities={:look=>#<RubyWarrior::Abilities::Look:0x007f2819715e10 
+@unit=#<RubyWarrior::Units::Warrior:0x007f28197171e8 ...>>, :shoot!=>#<RubyWarrior::Abilities::Shoot:0x007f2819714588 
+@unit=#<RubyWarrior::Units::Warrior:0x007f28197171e8 ...>>, :pivot!=>#<RubyWarrior::Abilities::Pivot:0x007f281970b500 
+@unit=#<RubyWarrior::Units::Warrior:0x007f28197171e8 ...>>, :rescue!=>#<RubyWarrior::Abilities::Rescue:0x007f281970ada8 
+@unit=#<RubyWarrior::Units::Warrior:0x007f28197171e8 ...>>, :health=>#<RubyWarrior::Abilities::Health:0x007f281970a560 
+@unit=#<RubyWarrior::Units::Warrior:0x007f28197171e8 ...>>, :rest!=>#<RubyWarrior::Abilities::Rest:0x007f2819709d18 
+@unit=#<RubyWarrior::Units::Warrior:0x007f28197171e8 ...>>, :feel=>#<RubyWarrior::Abilities::Feel:0x007f2819708c38 
+@unit=#<RubyWarrior::Units::Warrior:0x007f28197171e8 ...>>, :attack!=>#<RubyWarrior::Abilities::Attack:0x007f28196e2380 
+@unit=#<RubyWarrior::Units::Warrior:0x007f28197171e8 ...>>, :walk!=>#<RubyWarrior::Abilities::Walk:0x007f28196e0e40 
+@unit=#<RubyWarrior::Units::Warrior:0x007f28197171e8 ...>>}, 
+@name="Nikita", 
+@current_turn=#<RubyWarrior::Turn:0x007f28194e7788 
+@action=nil, 
+@senses={:look=>#<RubyWarrior::Abilities::Look:0x007f2819715e10 
+@unit=#<RubyWarrior::Units::Warrior:0x007f28197171e8 ...>>, :health=>#<RubyWarrior::Abilities::Health:0x007f281970a560 
+@unit=#<RubyWarrior::Units::Warrior:0x007f28197171e8 ...>>, :feel=>#<RubyWarrior::Abilities::Feel:0x007f2819708c38 
+@unit=#<RubyWarrior::Units::Warrior:0x007f28197171e8 ...>>}>, 
+@player=#<UserScope::Player:0x007f28194c6600 
+@dir=:forward, 
+@health=20, 
+@in_battle=false, 
+@arr=[...]>, 
+@health=20>, #<RubyWarrior::Units::Captive:0x007f28196cfbe0 
+@bound=true, 
+@position=#<RubyWarrior::Position:0x007f28196cfa78 
+@floor=#<RubyWarrior::Floor:0x007f281971eec0 ...>, 
+@x=2, 
+@y=0, 
+@direction_index=3>>, #<RubyWarrior::Units::Wizard:0x007f28196ceba0 
+@abilities={:shoot!=>#<RubyWarrior::Abilities::Shoot:0x007f28196cd930 
+@unit=#<RubyWarrior::Units::Wizard:0x007f28196ceba0 ...>>, :look=>#<RubyWarrior::Abilities::Look:0x007f28196c75d0 
+@unit=#<RubyWarrior::Units::Wizard:0x007f28196ceba0 ...>>}, 
+@position=#<RubyWarrior::Position:0x007f28196c75a8 
+@floor=#<RubyWarrior::Floor:0x007f281971eec0 ...>, 
+@x=3, 
+@y=0, 
+@direction_index=3>>, #<RubyWarrior::Units::Wizard:0x007f28196c5b40 
+@abilities={:shoot!=>#<RubyWarrior::Abilities::Shoot:0x007f28196c44e8 
+@unit=#<RubyWarrior::Units::Wizard:0x007f28196c5b40 ...>>, :look=>#<RubyWarrior::Abilities::Look:0x007f28194ef370 
+@unit=#<RubyWarrior::Units::Wizard:0x007f28196c5b40 ...>>}, 
+@position=#<RubyWarrior::Position:0x007f28194ef348 
+@floor=#<RubyWarrior::Floor:0x007f281971eec0 ...>, 
+@x=4, 
+@y=0, 
+@direction_index=3>>], 
+@stairs_location=[5, 0]>, 
+@x=3, 
+@y=0>]
+Player.rb:17:in `play_turn'
