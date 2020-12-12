@@ -1,0 +1,4 @@
+sample_word: 'hello world!'
+server_name: 'trial.example.com'
+server_root: '/var/apps/trial'
+trial_nginx: 'trial'

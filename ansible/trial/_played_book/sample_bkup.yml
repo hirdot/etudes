@@ -1,0 +1,23 @@
+---
+- hosts: app
+  become: yes
+  roles:
+    - nginx
+  tasks:
+    - name: ip check
+      shell: "ip a"
+      register: result_ip
+    - name: result_ip
+      debug:
+        var: "{{item}}" 
+      with_items:
+        - result_ip.rc
+        - result_ip.stdout
+
+    - name: install_nginx
+      apt:
+        name: nginx
+        state: present
+      environment:
+        RUNLEVEL: 1
+

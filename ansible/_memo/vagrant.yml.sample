@@ -1,0 +1,24 @@
+   
+# VM settings
+host:
+  {server_name}:
+    inventory: ""
+    ip_no: 0
+    provision_shell: ""
+    provision_ansible: "development.yml"
+    ansible_config:
+      inventory_path: "inventories/development"
+      playbook_root: "/vagrant/ansible"
+      provision_target: "dev"
+    box_name: ""
+    public_flag: false
+    gui_mode: false
+    mem: 1024
+    synced_folders:
+      vagrant:
+        guest: "/vagrant"
+        host: "./"
+    forwarded_port:
+      http:
+        guest: 3000
+        host: 3000

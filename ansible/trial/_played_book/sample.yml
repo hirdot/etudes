@@ -1,0 +1,15 @@
+---
+- hosts: app
+  become: yes
+  tasks:
+    - name: ip check
+      shell: "ip a"
+      register: result_ip
+    - name: result_ip
+      debug:
+        var: "{{item}}" 
+      with_items:
+        - result_ip.rc
+        - result_ip.stdout
+  roles:
+    - nginx

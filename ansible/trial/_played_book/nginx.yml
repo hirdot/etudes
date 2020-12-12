@@ -1,0 +1,56 @@
+---
+- hosts: app
+  become: yes
+  tasks:
+          #    - name: ip check
+          #      shell: "ip a"
+          #      register: result_ip
+          #    - name: result_ip
+          #      debug:
+          #        var: "{{item}}" 
+          #      with_items:
+          #        - result_ip.rc
+          #        - result_ip.stdout
+
+    - name: install_nginx
+      apt:
+        name: nginx
+        state: present
+      environment:
+        RUNLEVEL: 1
+
+    - name: start nginx
+      systemd: 
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: placement config file
+      template:
+        src: /vagrant/trial/templates/nginx.conf.j2
+        dest: /etc/nginx/nginx.conf
+        owner: root
+        group: root
+        mode: 0644
+      register: result_nginx
+
+    - name: view result_nginx
+      debug: 
+        var: result_nginx
+
+
+    - name: restart nginx
+      systemd:
+        name: nginx
+        state: restarted
+      when: result_nginx is changed 
+
+    - name: ip check
+      shell: "ip a"
+      register: result_ip
+      changed_when: false
+      debugger: always
+
+    - name: result_ip
+      debug:
+        var: result_ip

@@ -1,0 +1,123 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+require 'yaml'
+
+# Vagrant version Check
+if  Gem::Version.new(Vagrant::VERSION) < Gem::Version.new('1.9.3')
+  STDERR.puts "\e[33m[ WARNING ]\e[0m Please install vagrant 1.9.3"
+  STDERR.puts "\e[33m[ WARNING ]\e[0m Current vagrant version : #{Vagrant::VERSION}"
+end
+
+def deep_merge!(base, other)
+  other.each do |k, v|
+    if v.class == Hash && base.key?(k)
+      base[k] = deep_merge!(base[k], v)
+    else
+      base[k] = v
+    end
+  end
+  base
+end
+
+# vagrant.ymlの読み込み(.localが存在すれば上書き)
+settings = {}
+defaultInfo = {}
+["", ".local"].each do |v|
+  path = [File.dirname(__FILE__), "vagrant#{v}.yml"].join(File::SEPARATOR)
+  settings = deep_merge!(settings, YAML.load_file(path)) if File.exist? path
+end
+
+unless ARGV[1].nil?
+  settings["host"].each_key do |key|
+    if ARGV[1] == key || ARGV[2] == key
+      names = key
+      defaultInfo = settings["host"][names]
+      defaultInfo.store("host_name", names)
+    end
+  end
+else
+  names = settings["host"].each_key.first
+  defaultInfo = settings["host"][names]
+  defaultInfo.store("host_name", names)
+end
+
+hosts = open(defaultInfo["inventory"]) do |io|
+  last_key = ""
+  io.readlines.inject({}) do |r, line|
+    if md = line.match(/^\[(.*)\]$/)
+      last_key = md[1]
+      r[last_key] = []
+    elsif md = line.match(/(([0-9]{1,3}).([0-9]{1,3}).([0-9]{1,3}).([0-9]{1,3}))/)
+      r[last_key] << md[0]
+    else
+      #nop
+    end
+    r
+  end
+end
+
+host_ips=[]
+
+hosts.each_value do |value|
+  if value.instance_of?(Array)
+    value.each do |v|
+      host_ips.push(v)
+    end
+  else
+    host_ips.push(value)
+  end
+end
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  # windows向けのエンコード対応
+  Encoding.default_external = 'UTF-8'
+
+  config.vm.define defaultInfo["host_name"] do |config|
+    config.vbguest.auto_update = false
+    config.vbguest.no_remote = true
+    config.vm.box = defaultInfo["box_name"]
+    config.vm.hostname = defaultInfo["host_name"]
+    if defaultInfo["public_flag"] == true
+      config.vm.network "public_network", ip: host_ips[defaultInfo["ip_no"]]
+    else
+      config.vm.network "private_network", ip: host_ips[defaultInfo["ip_no"]]
+    end
+    config.ssh.forward_agent = true
+    defaultInfo["forwarded_port"].each do |key, value|
+      config.vm.network "forwarded_port", guest: value["guest"], host: value["host"], id: key
+    end
+    config.ssh.insert_key = false
+
+    # ファイル同期の設定(windowsも対応)
+    defaultInfo["synced_folders"].each do |key, value|
+      if Vagrant::Util::Platform.windows?
+        config.vm.synced_folder value["host"], value["guest"], owner: "vagrant", group: "vagrant", mount_options: ["fmode=764", "dmode=755"]
+      else
+        if key == "vagrant"
+          config.vm.synced_folder value["host"], value["guest"], create: true, owner: "vagrant", group: "vagrant"
+        elsif key != "vagrant" && value["own_name"] != ""
+          config.vm.synced_folder value["host"], value["guest"], create: true, owner: value["own_name"], group: value["own_name"]
+        end
+      end
+    end
+    # provisionの実行
+    if defaultInfo["provision_shell"] != ""
+      config.vm.provision "shell", path: defaultInfo["provision_shell"]
+    elsif defaultInfo["provision_ansible"] != ""
+      config.vm.provision :ansible_local do |ansible|
+        ansible.provisioning_path = defaultInfo["ansible_config"].fetch("playbook_root")
+        ansible.playbook = defaultInfo["provision_ansible"]
+        ansible.inventory_path = defaultInfo["ansible_config"].fetch("inventory_path")
+        ansible.limit = defaultInfo["ansible_config"].fetch("provision_target")
+      end
+    end
+  end
+
+  config.vm.provider :virtualbox do |vb|
+    vb.gui = defaultInfo["gui_mode"]
+    vb.memory = defaultInfo["mem"]
+  end
+end
