@@ -1,0 +1,121 @@
+from __future__ import print_function
+import time
+import pprint
+import json
+import boto3
+import urllib
+import os
+import uuid
+import subprocess
+from urllib.parse import unquote_plus
+
+def lambda_handler(event, context):
+    
+    s3 = boto3.client('s3')
+    s3write = boto3.resource('s3')
+    transcribe = boto3.client('transcribe')
+    connect = boto3.client('connect', region_name='ap-northeast-1')
+    
+    
+    ### find S3 bucket and object from the event
+    ###
+    for record in event['Records']:
+        bucket = record['s3']['bucket']['name']
+        key = record['s3']['object']['key']
+        print ('bucketname: {0}, key: {1}\n'.format(bucket, key))
+
+    BUCKETFORTRANSCRIPT = os.environ.get('BUCKETFORTRANSCRIPT')
+    BUCKETFOROUTPUT =  os.environ.get('BUCKETFOROUTPUT')
+
+    ### determine job name and media file uri if the input file contains .wav, otherwise ignore the file
+    ###
+    if '.wav' in key:
+        if '_' in key:
+            ### This branch is used for actual Connect recordings, containing '_' and '/''
+            ###
+            job_name_temp1 = key.split('_')
+            job_name_temp2 = job_name_temp1[0]
+            job_name_temp3 = job_name_temp2.split('/')
+            job_name = job_name_temp3[6]
+        else:
+            ### This branch is used for test wav file that can contain all letters but '_'
+            ###
+            job_name_temp1 = key.split('/')
+            job_name_temp2 = job_name_temp1[-1]
+            job_name_temp3 = job_name_temp2.split('.')
+            print (job_name_temp3[0])
+            job_name = job_name_temp3[0]
+            
+        print ('job_name: {0}\n'.format(job_name))
+    else:
+        failedstring = 'Unwanted file came in, ignored..'
+        return failedstring
+
+
+    ### Transcribe part
+    ###
+    transcribe.start_transcription_job(
+        TranscriptionJobName=job_name,
+        Media={'MediaFileUri': f'https://s3-ap-northeast-1.amazonaws.com/{bucket}/{key}' },
+        MediaFormat='wav',
+        LanguageCode='ja-JP',
+        OutputBucketName = BUCKETFORTRANSCRIPT
+    )
+    while True:
+        status = transcribe.get_transcription_job(TranscriptionJobName=job_name)
+        if status['TranscriptionJob']['TranscriptionJobStatus'] in ['COMPLETED', 'FAILED']:
+            break
+        print('Not ready yet...')
+        time.sleep(5)
+       
+    ### parse the JSON to find the filelocation in the S3
+    ###
+    filelocation = status['TranscriptionJob']['Transcript']['TranscriptFileUri']
+
+    newfile = os.path.basename(filelocation)
+    print('filelocation: {0}, filename: {1}'.format(filelocation, newfile))
+
+    ### read JSON, convert to object then write transcription part to another s3 bucket
+    ###
+    def store_transcription(bucket1, bucket2, key):
+        bucket = s3write.Bucket(bucket1)
+        obj = bucket.Object(key)
+        # print ('object :\n', obj)
+        response = obj.get()
+        body = response['Body'].read()
+        # print('decoded body:\n', body.decode('utf-8'))
+        convertdata = json.loads(body.decode('utf-8'))
+        # print ('\nObject: \n', convertdata)
+        transcribedata = convertdata['results']['transcripts'][0]['transcript']
+        print ('Transcribed data:\n', transcribedata)
+        
+        bucket = s3write.Bucket(bucket2)
+        obj = bucket.Object(key)
+        body = transcribedata
+        response = obj.put(
+            Body=body.encode('utf-8'),
+            ContentEncoding='utf-8',
+            ContentType='text/plane'
+        )
+        return body
+
+    ### Update Connect attribute
+    ###
+    def update_attributes(instanceId, initialContactId, value):
+        print ('InstanceID: {0} ContactID: {1} Attribute: {2}'.format(instanceId, initialContactId, value) )    
+        updateValue = connect.update_contact_attributes(
+            Attributes = {
+               "Transcription" : value
+            },
+        InstanceId = instanceId,
+        InitialContactId = initialContactId
+    )
+    
+    encodeddata = store_transcription(BUCKETFORTRANSCRIPT, BUCKETFOROUTPUT, newfile)
+    contactID = job_name
+    INSTANCEID = os.environ.get('INSTANCEID')
+    update_attributes(INSTANCEID, contactID, encodeddata)
+
+
+
+        
