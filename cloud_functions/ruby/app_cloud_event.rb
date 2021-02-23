@@ -2,8 +2,11 @@ require "functions_framework"
 require "google/cloud/storage"
 require "base64"
 
-# This function receives a CloudEvent triggered by a
-# message posted to a Cloud Pub/Sub topic.
+# sample
+# > access to cloud storage
+#  >> 'ENV'でアクセス可能な環境変数はランタイム環境変数
+# > format_csv
+#  >> 改行コードなどをgsubで変換し、同名で上書き保存
 FunctionsFramework.cloud_event "weekly-formatter_debussy-csv" do |event|
   logger.info " > start!!"
 
