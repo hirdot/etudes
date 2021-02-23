@@ -7,7 +7,7 @@ require "base64"
 #  >> 'ENV'でアクセス可能な環境変数はランタイム環境変数
 # > format_csv
 #  >> 改行コードなどをgsubで変換し、同名で上書き保存
-FunctionsFramework.cloud_event "weekly-formatter_debussy-csv" do |event|
+FunctionsFramework.cloud_event "event_name" do |event|
   logger.info " > start!!"
 
   # ビルド環境変数は ENV['BUCKET_NAME'] では取得できない
